@@ -1,10 +1,11 @@
-// generated Fri Apr 09 2021 15:54:34 GMT+0300 (GMT+03:00)
+// generated Thu Mar 18 2021 12:01:24 GMT+0200 (GMT+02:00)
 
 export * from "./Completion"
 export * from "./CompletionRegistered"
 export * from "./Course"
 export * from "./CourseAlias"
 export * from "./CourseOrganization"
+export * from "./CourseStatistics"
 export * from "./CourseTranslation"
 export * from "./CourseVariant"
 export * from "./EmailDelivery"

@@ -7,6 +7,7 @@ import ViewListIcon from "@material-ui/icons/ViewList"
 import ScatterplotIcon from "@material-ui/icons/ScatterPlot"
 import DashboardIcon from "@material-ui/icons/Dashboard"
 import EditIcon from "@material-ui/icons/Edit"
+import EqualizerIcon from "@material-ui/icons/Equalizer"
 import LanguageContext from "/contexts/LanguageContext"
 import { useRouter } from "next/router"
 
@@ -28,7 +29,7 @@ function a11yProps(index: any) {
 
 const TabContainer = styled.div`
   width: 100%;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
 `
 
@@ -58,6 +59,11 @@ const routes: Route[] = [
     label: "Points",
     icon: <ScatterplotIcon />,
     path: "/points",
+  },
+  {
+    label: "Statistics",
+    icon: <EqualizerIcon />,
+    path: "/statistics",
   },
   {
     label: "Edit",
