@@ -9,8 +9,19 @@ import { ApolloServer } from "apollo-server-express"
 import * as winston from "winston"
 import { Knex } from "knex"
 import { apiRouter } from "./api"
+import { authRouter } from "./auth"
 
 const helmet = require("helmet")
+const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
+const session = require("express-session")
+const crypto = require("crypto")
+const rateLimit = require("express-rate-limit")
+
+const apiLimit = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+})
 
 const DEBUG = Boolean(process.env.DEBUG)
 const TEST = process.env.NODE_ENV === "test"
@@ -31,11 +42,28 @@ const createExpressAppWithContext = ({
 
   app.use(cors())
   app.use(helmet.frameguard())
+  app.use(cookieParser())
+  app.use(bodyParser.json())
+  app.use(
+    session({
+      secret: crypto.randomBytes(20).toString("hex"),
+      cookie: {
+        maxAge: 365 * 24 * 60 * 60 * 1000,
+        secure: true,
+      },
+      saveUninitialized: false,
+      resave: false,
+      unset: "keep",
+    }),
+  )
+
   if (!TEST) {
     app.use(morgan("combined"))
   }
   app.use(express.json())
   app.use("/api", apiRouter({ prisma, knex, logger }))
+  app.use("/auth", apiLimit, authRouter({ prisma, knex, logger }))
+
   return app
 }
 
